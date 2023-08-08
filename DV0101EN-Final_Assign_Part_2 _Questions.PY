@@ -19,7 +19,7 @@ data = pd.read_csv('https://cf-courses-data.s3.us.cloud-object-storage.appdomain
 app = dash.Dash(__name__)
 
 # Set the title of the dashboard
-#app.title = "Automobile Statistics Dashboard"
+app.title = "Automobile Statistics Dashboard"
 
 #---------------------------------------------------------------------------------
 # Create the dropdown menu options
@@ -126,8 +126,8 @@ def update_output_container(selected_statistics, input_year):
             html.Div(className='chart-item', children=[html.Div(children=R_chart3),html.Div(children=R_chart4)],style={'display':'flex'})
             ]
  # Yearly Statistic Report Plots                             
-    elif (input_year and selected_statistics=='selected_statistics') :
-        yearly_data = data[data['Year'] == Year]
+    elif (input_year and selected_statistics=='Yearly Statistics') :
+        yearly_data = data[data['Year'] == input_year]
 
 #TASK 2.5: Creating Graphs Yearly data
 
@@ -135,7 +135,8 @@ def update_output_container(selected_statistics, input_year):
         yas= data.groupby('Year')['Automobile_Sales'].mean().reset_index()
         Y_chart1 = dcc.Graph(figure=px.line(yas, 
                                             x='Year', 
-                                            y='Automobile_Sales'))
+                                            y='Automobile_Sales',
+                                            title='Yearly Automobile sales using line chart for the whole period'))
 
 # Plot 2 Total Monthly Automobile sales using line chart.
         Y_chart2 = dcc.Graph(figure=px.line(yearly_data, 
@@ -157,8 +158,8 @@ def update_output_container(selected_statistics, input_year):
 
 #TASK 2.6: Returning the graphs for displaying Yearly data
         return [
-                html.Div(className='chart-item', children=[html.Div(children=Y_chart1),html.Div(children=Y_chart2)],style={'flex'}),
-                html.Div(className='chart-item', children=[html.Div(children=Y_chart3),html.Div(children=Y_chart4)],style={'flex'})
+                html.Div(className='chart-item', children=[html.Div(children=Y_chart1),html.Div(children=Y_chart2)],style={'display' :'flex'}),
+                html.Div(className='chart-item', children=[html.Div(children=Y_chart3),html.Div(children=Y_chart4)],style={'display' :'flex'})
                 ]
 
     else:
@@ -166,4 +167,4 @@ def update_output_container(selected_statistics, input_year):
 
 # Run the Dash app
 if __name__ == '__main__':
-    app.run_server(debug=True, port = 9020)
+    app.run_server(debug=True, port = 9030)
